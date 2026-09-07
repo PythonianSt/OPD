@@ -45,7 +45,7 @@ FIELDS = [
     "first_name", "last_name", "english_name", "citizen_id",
     "sex", "race", "nationality", "religion", "birth_date", "age",
     "weight", "height", "marital_status", "occupation", "faculty",
-    "current_address", "phone", "emergency_contact", "emergency_phone",
+    "current_address", "phone", "email", "emergency_contact", "emergency_phone",
     "blood_group", "treatment_right", "health_insurance",
     "chronic_disease", "drug_allergy", "food_allergy",
     "temperature", "pulse", "respiration", "blood_pressure", "spo2",
@@ -389,6 +389,7 @@ def patient_form(error=""):
       <div class="grid">
         <label class="field full">ที่อยู่ปัจจุบัน<textarea name="current_address"></textarea></label>
         <label class="field">เบอร์โทรศัพท์ผู้รับบริการ<input name="phone" inputmode="tel"></label>
+        <label class="field">อีเมลผู้รับบริการ<input type="email" name="email" placeholder="name@example.com"></label>
         <label class="field">ผู้ติดต่อกรณีฉุกเฉิน<input name="emergency_contact"></label>
         <label class="field">เบอร์โทรศัพท์ผู้ติดต่อกรณีฉุกเฉิน<input name="emergency_phone" inputmode="tel"></label>
       </div>
@@ -492,6 +493,7 @@ HN: {row.get('hn','')}
 ข้อมูลติดต่อ
 ที่อยู่ปัจจุบัน: {row.get('current_address','')}
 โทรศัพท์: {row.get('phone','')}
+อีเมล: {row.get('email','')}
 ผู้ติดต่อกรณีฉุกเฉิน: {row.get('emergency_contact','')}
 โทรศัพท์ผู้ติดต่อกรณีฉุกเฉิน: {row.get('emergency_phone','')}
 
@@ -566,8 +568,8 @@ def a4_content(row):
   <h2>ข้อมูลติดต่อ</h2>
   <table>
     {tr("ที่อยู่ปัจจุบัน", row.get('current_address',''))}
-    <tr><th>โทรศัพท์</th><td>{esc(row.get('phone',''))}</td><th>ผู้ติดต่อฉุกเฉิน</th><td>{esc(row.get('emergency_contact',''))}</td></tr>
-    {tr("โทรศัพท์ผู้ติดต่อฉุกเฉิน", row.get('emergency_phone',''))}
+    <tr><th>โทรศัพท์</th><td>{esc(row.get('phone',''))}</td><th>อีเมล</th><td>{esc(row.get('email',''))}</td></tr>
+    <tr><th>ผู้ติดต่อฉุกเฉิน</th><td>{esc(row.get('emergency_contact',''))}</td><th>โทรศัพท์ผู้ติดต่อฉุกเฉิน</th><td>{esc(row.get('emergency_phone',''))}</td></tr>
   </table>
 
   <h2>ประวัติสุขภาพ</h2>
@@ -630,6 +632,7 @@ def submit(
     faculty: str = Form(""),
     current_address: str = Form(""),
     phone: str = Form(""),
+    email: str = Form(""),
     emergency_contact: str = Form(""),
     emergency_phone: str = Form(""),
     blood_group: str = Form(""),
@@ -679,6 +682,7 @@ def submit(
         "faculty": faculty.strip(),
         "current_address": current_address.strip(),
         "phone": phone.strip(),
+        "email": email.strip().lower(),
         "emergency_contact": emergency_contact.strip(),
         "emergency_phone": emergency_phone.strip(),
         "blood_group": blood_group.strip(),
